@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.ssm.mapper.UserMapper">
+	<resultMap type="User" id="userMap">
+		<id column="id" property="id"/>
+		<result column="userCode" property="userCode"/>
+		<result column="userName" property="userName"/>
+		<result column="userPassword" property="userPassword"/>
+		<result column="gender" property="gender"/>
+		<result column="birthday" property="birthday"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="userRole" property="userRole"/>
+		<result column="createdBy" property="createdBy"/>
+		<result column="createDate" property="createDate"/>
+		<result column="modifyBy" property="modifyBy"/>
+		<result column="moifyDate" property="moifyDate"/>
+		<result column="roleName" property="roleName"/>
+		<result column="idPicPath" property="idPicPath"/>
+		<result column="workPicPath" property="workPicPath"/>
+	</resultMap>
+	<select id="login" parameterType="string" resultType="User">
+		select * from user 
+		<trim prefix="where" prefixOverrides="AND |OR">
+			<if test='loginParam!=null and loginParam!=""'>
+				and userName=#{loginParam} or phone=#{loginParam}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="totalCount" parameterType="map" resultType="int">
+		select 
+		  count(u.userCode)
+		from `user` u
+		inner join role r on u.userRole=r.id
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test='userName!=null and userName!=""'>
+				u.userName like concat('%',#{userName},'%') 
+			</if>
+			<if test='userRole!=null and userRole!=""'>
+				and u.userRole=#{userRole}
+			</if>
+		</trim>	
+	</select>
+	
+	<select id="findByCondition" parameterType="map" resultMap="userMap">
+		select 
+		   u.id,
+		   u.userCode,
+		   u.userName,
+		   u.gender,
+		   u.birthday,
+		   u.phone,
+		   r.roleName
+		from `user` u
+		inner join role r on u.userRole=r.id
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test='userName!=null and userName!=""'>
+				u.userName like concat('%',#{userName},'%') 
+			</if>
+			<if test='userRole!=null and userRole!=""'>
+				and u.userRole=#{userRole}
+			</if>
+		</trim>
+		order by u.createDate desc
+		limit #{start},#{size}
+	</select>
+	
+	<select id="selectByCondition" parameterType="map" resultMap="userMap">
+			SELECT u.id,u.userCode,u.userName,u.address,u.gender,u.birthday,u.phone,u.userRole,r.roleName,u.modifyBy
+			FROM `user` AS u 
+			INNER JOIN role AS r ON u.userRole=r.id 
+			<if test='userId!=null and userId!=""'>
+				where u.id=#{userId}
+			</if>
+	</select>
+	
+	<insert id="insert" parameterType="User">
+		insert into `user`(userCode,userName,userPassword,gender,birthday,phone,address,userRole,createdBy,createDate,idPicPath,workPicPath) 
+		values(#{userCode},#{userName},#{userPassword},#{gender},#{birthday},#{phone},#{address},#{userRole},#{createdBy},#{createDate},#{idPicPath},#{workPicPath});
+	</insert>
+	
+	<update id="update" parameterType="User">
+		update `user` 
+		<trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+			<if test='userCode!=null and userCode!=""'>
+				userCode=#{userCode},
+			</if>
+			<if test='userName!=null and userName!=""'>
+				userName=#{userName},
+			</if>
+			<if test='userPassword!=null and userPassword!=""'>
+				userPassword=#{userPassword},
+			</if>
+			<if test='gender!=null and gender!=""'>
+				gender=#{gender},
+			</if>
+			<if test='birthday!=null and birthday!=""'>
+				birthday=#{birthday},
+			</if>
+			<if test='phone!=null and phone!=""'>
+				phone=#{phone},
+			</if>
+			<if test='address!=null and address!=""'>
+				address=#{address},
+			</if>
+			<if test='userRole!=null and userRole!=""'>
+				userRole=#{userRole},
+			</if>
+			<if test='createdBy!=null and createdBy!=""'>
+				createdBy=#{createdBy},
+			</if>
+			<if test='createDate!=null and createDate!=""'>
+				createDate=#{createDate},
+			</if>
+			<if test='modifyBy!=null and modifyBy!=""'>
+				modifyBy=#{modifyBy},
+			</if>
+			<if test='modifyDate!=null and modifyDate!=""'>
+				modifyDate=#{modifyDate}
+			</if>
+		</trim>
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from `user` where id=#{id}
+	</delete>
+	
+	<select id="updateUserPwd" parameterType="string">
+		SELECT COUNT(*) FROM `user` 
+		WHERE userPassword=#{password} and id=#{id}
+	</select>
+</mapper>

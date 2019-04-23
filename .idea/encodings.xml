@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/controller/BillController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/controller/LoginController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/controller/ProviderController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/controller/UserController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/entity/Role.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/entity/User.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/service/impl/ProviderServiceImpl.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/bdqn/ssm/service/impl/UserServiceImpl.java" charset="GBK" />
+  </component>
+</project>
